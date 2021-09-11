@@ -1,5 +1,6 @@
 import { TestingModule } from '@nestjs/testing';
 import { EntityManager } from 'typeorm';
+import BusinessException from '../../../../exceptions/business.exception';
 import createDatabaseTestingModule from '../../../__test__/createDatabaseTestingModule';
 import Customer from '../../domain/customer';
 import CustomerEntity from '../customer.entity';
@@ -41,6 +42,38 @@ describe('CustomersAdapter', () => {
       expect(savedCustomer.name).toEqual('Maria Silva');
       expect(savedCustomer.email).toEqual('maria.silva@mail.com');
       expect(savedCustomer.document).toEqual('999999999');
+    });
+
+    it('throws BusinessExpection when document is already in use', async () => {
+      const customer = new Customer({
+        document: '1',
+        name: 'Maria Silva',
+        email: 'maria@mail.com',
+      });
+
+      await entityManager.save(CustomerEntity.from(customer));
+
+      await expect(
+        adapter.create({ ...customer, email: 'another@mail.com' }),
+      ).rejects.toThrowError(
+        new BusinessException('Document or email is already in use'),
+      );
+    });
+
+    it('throws BusinessExpection when email is already in use', async () => {
+      const customer = new Customer({
+        document: '1',
+        name: 'Maria Silva',
+        email: 'maria@mail.com',
+      });
+
+      await entityManager.save(CustomerEntity.from(customer));
+
+      await expect(
+        adapter.create({ ...customer, document: '2' }),
+      ).rejects.toThrowError(
+        new BusinessException('Document or email is already in use'),
+      );
     });
   });
 });
