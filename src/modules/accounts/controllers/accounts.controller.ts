@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AccountsService } from '../domain/accounts.service';
 import CreateAccountDto from './dtos/create.account.dto';
 
@@ -7,7 +7,8 @@ export class AccountsController {
   constructor(private accountsService: AccountsService) {}
 
   @Post()
-  async create(@Body() dto: CreateAccountDto) {
+  @HttpCode(202)
+  async create(@Body() dto: CreateAccountDto): Promise<void> {
     await this.accountsService.create(dto.toAccountApplication());
   }
 }

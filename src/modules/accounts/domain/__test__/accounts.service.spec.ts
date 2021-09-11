@@ -1,18 +1,37 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import Customer from '../../../users/domain/customer';
+import CustomersService from '../../../users/domain/customers.service';
+import AccountApplication from '../account-application';
 import { AccountsService } from '../accounts.service';
 
 describe('AccountsService', () => {
   let service: AccountsService;
+  let customersService: CustomersService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AccountsService],
-    }).compile();
+    customersService = new CustomersService(null);
 
-    service = module.get<AccountsService>(AccountsService);
+    customersService.create = jest.fn();
+
+    service = new AccountsService(customersService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  describe('create', () => {
+    it('creates a new customer', async () => {
+      const accountApplication = new AccountApplication({
+        name: 'Maria Silva',
+        document: '1234',
+        email: 'maria@mail.com',
+      });
+
+      await service.create(accountApplication);
+
+      expect(customersService.create).toHaveBeenCalledWith(
+        new Customer({
+          name: 'Maria Silva',
+          document: '1234',
+          email: 'maria@mail.com',
+        }),
+      );
+    });
   });
 });
