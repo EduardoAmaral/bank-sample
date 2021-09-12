@@ -17,8 +17,12 @@ describe('CustomersAdapter', () => {
     ));
   }, 10000);
 
-  beforeEach(() => {
-    entityManager.clear(CustomerEntity);
+  beforeEach(async () => {
+    await entityManager
+      .createQueryBuilder()
+      .delete()
+      .from(CustomerEntity)
+      .execute();
   });
 
   afterAll(async () => {
