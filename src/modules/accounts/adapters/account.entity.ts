@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import CustomerEntity from '../../users/adapters/customer.entity';
 import Account from '../domain/account';
 
@@ -16,9 +10,6 @@ export default class AccountEntity {
   @OneToOne(() => CustomerEntity, { nullable: false, eager: true })
   @JoinColumn({ name: 'customerId', referencedColumnName: 'id' })
   customer: CustomerEntity;
-
-  @Column()
-  customerId: string;
 
   constructor(id: string, customer: CustomerEntity) {
     this.id = id;
