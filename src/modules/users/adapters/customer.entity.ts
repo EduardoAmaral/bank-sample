@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import Customer from '../domain/customer';
 
 @Entity('customers')
@@ -14,6 +21,15 @@ export default class CustomerEntity {
 
   @Column({ nullable: false, unique: true })
   email: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   constructor(id: string, document: string, name: string, email: string) {
     this.id = id;

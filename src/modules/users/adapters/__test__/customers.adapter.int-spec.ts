@@ -41,17 +41,19 @@ describe('CustomersAdapter', () => {
 
       const result = await entityManager.findOne(CustomerEntity);
 
-      expect(result.id).not.toBeUndefined;
+      expect(result.id).not.toBeUndefined();
       expect(result.name).toEqual('Maria Silva');
       expect(result.email).toEqual('maria.silva@mail.com');
       expect(result.document).toEqual('999999999');
 
       const customers = await entityManager.find(CustomerEntity);
 
-      expect(customers[0].id).not.toBeUndefined;
+      expect(customers[0].id).not.toBeUndefined();
       expect(customers[0].name).toEqual('Maria Silva');
       expect(customers[0].email).toEqual('maria.silva@mail.com');
       expect(customers[0].document).toEqual('999999999');
+      expect(customers[0].createdAt).not.toBeUndefined();
+      expect(customers[0].updatedAt).not.toBeUndefined();
     });
 
     it('throws BusinessExpection when document is already in use', async () => {
