@@ -22,7 +22,7 @@ export default class CustomerEntity {
     this.email = email;
   }
 
-  static from(customer: Customer): any {
+  static from(customer: Customer): CustomerEntity {
     return new CustomerEntity(
       customer.id,
       customer.document,
@@ -31,7 +31,7 @@ export default class CustomerEntity {
     );
   }
 
-  toCustomer() {
+  toCustomer(): Customer {
     return new Customer({
       id: this.id,
       document: this.document,
