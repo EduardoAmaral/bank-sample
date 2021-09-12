@@ -1,4 +1,12 @@
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import CustomerEntity from '../../users/adapters/customer.entity';
 import Account from '../domain/account';
 
@@ -10,6 +18,15 @@ export default class AccountEntity {
   @OneToOne(() => CustomerEntity, { nullable: false, eager: true })
   @JoinColumn({ name: 'customerId', referencedColumnName: 'id' })
   customer: CustomerEntity;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   constructor(id: string, customer: CustomerEntity) {
     this.id = id;

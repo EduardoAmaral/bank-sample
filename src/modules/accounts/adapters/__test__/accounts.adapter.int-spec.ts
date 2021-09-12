@@ -45,6 +45,8 @@ describe('AccountsAdapter', () => {
 
       expect(accounts[0].id).not.toBeUndefined();
       expect(accounts[0].customer).toMatchObject(customer);
+      expect(accounts[0].createdAt).not.toBeUndefined();
+      expect(accounts[0].updatedAt).not.toBeUndefined();
     });
   });
 });
